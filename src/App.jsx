@@ -27,8 +27,8 @@ function App() {
         <Navbar />
         <Home isLoaded={isLoaded} />
         <About />
-        <Projects />
         <Experience isLoaded={isLoaded}/>
+        <Projects />
         <Reviews />
         <Contact />
       </div>
