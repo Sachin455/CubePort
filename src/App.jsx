@@ -8,6 +8,7 @@ import { Projects } from "./components/sections/Projects"
 import { Contact } from "./components/sections/Contact"
 import { Reviews } from "./components/sections/Reviews"
 import { Experience } from "./components/sections/Experience"
+import { Education } from "./components/sections/Education"
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false)

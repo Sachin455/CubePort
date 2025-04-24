@@ -24,7 +24,7 @@ const item = (delay) => ({
 
 export const Experience = ({ isLoaded }) => {
   return (
-    <section className="py-20 border-b border-neutral-800 bg-white/70 backdrop-blur">
+    <section className="py-20  border-neutral-800 bg-white/70 backdrop-blur">
       <motion.h2
         variants={item(0)}
         initial="hidden"
