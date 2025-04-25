@@ -1,6 +1,6 @@
-import { HERO_CONTENT } from "../../constants"
-import { motion } from "framer-motion"
-import { AnimatedCube } from "./AnimatedCube"
+import { HERO_CONTENT } from "../../constants";
+import { motion } from "framer-motion";
+import { AnimatedCube } from "./AnimatedCube";
 
 const container = (delay) => ({
   hidden: { x: -100, opacity: 0 },
@@ -9,14 +9,14 @@ const container = (delay) => ({
     opacity: 1,
     transition: { duration: 0.5, delay: delay },
   },
-})
+});
 
 export const Home = ({ isLoaded }) => {
   return (
-    <div className="min-h-screen pt-16 lg:pt-0 px-4 lg:px-10 flex flex-col justify-center items-center py-50">
-      <div className="flex flex-col-reverse lg:flex-row w-full max-w-8xl items-center justify-between">
+    <section id="home" className="min-h-screen flex items-center justify-center pt-24 pb-10 px-4 lg:px-10">
+      <div className="max-w-7xl w-full flex flex-col-reverse lg:flex-row items-center justify-between gap-12">
         {/* Left: Hero Content */}
-        <div className="w-full lg:w-1/2 flex flex-col items-center text-center px-4">
+        <div className="w-full lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left">
           <motion.h1
             variants={container(0)}
             initial="hidden"
@@ -31,23 +31,23 @@ export const Home = ({ isLoaded }) => {
             animate={isLoaded ? "visible" : "hidden"}
             className="font-inter bg-gradient-to-r from-pink-300 via-slate-500 to-purple-500 bg-clip-text text-2xl md:text-3xl tracking-tight text-transparent mb-4"
           >
-           Full Stack Web Developer
+            Full Stack Web Developer
           </motion.span>
           <motion.p
             variants={container(1)}
             initial="hidden"
             animate={isLoaded ? "visible" : "hidden"}
-            className="font-inter max-w-xl font-light tracking-tighter text-base md:text-lg text-neutral-600"
+            className="font-inter max-w-xl font-light tracking-tighter text-base md:text-lg text-neutral-600 mb-8 lg:mb-0"
           >
             {HERO_CONTENT}
           </motion.p>
         </div>
 
         {/* Right: Animated Cube */}
-        <div className="w-full lg:w-1/2 flex justify-center items-center mb-12 lg:mb-0">
+        <div className="w-full lg:w-1/2 flex justify-center">
           <AnimatedCube />
         </div>
       </div>
-    </div>
-  )
-}
+    </section>
+  );
+};

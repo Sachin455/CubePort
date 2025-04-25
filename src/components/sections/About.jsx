@@ -4,15 +4,66 @@ import TypewriterLoop from "./TypeWriter";
 
 export const About = () => {
   const skills = ["Chess", "Programming", "Music", "Gaming", "Maths", "Travelling"];
-  const [progressValues, setProgressValues] = useState([0, 0, 0]);
+  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
 
+  // Using placeholder images (replace with your actual imports)
+  const educationPhotos = [
+    {
+      id: "highschool",
+      img: "https://www.ucps.k12.nc.us/cms/lib/NC01910453/Centricity/Domain/3740/Exterior-CHS-MMG.jpg",
+      alt: "Kavre School, Banepa",
+      caption: "My High School Campus"
+    },
+    {
+      id: "college",
+      img: "https://wms.edigitalnepal.com/wms/files/ws-profile/1678949042195_fdaa1729-2c7e-46e9-bc71-6aa8e8a71559.jpg",
+      alt: "Khwopa HS School, Bhaktapur",
+      caption: "College Days at Khwopa"
+    },
+    {
+      id: "university",
+      img: "https://upload.wikimedia.org/wikipedia/commons/9/9a/Kathmandu_University.jpg",
+      alt: "Kathmandu University",
+      caption: "University Life at KU"
+    }
+  ];
+
+  const educationDetails = [
+    {
+      id: "highschool",
+      title: "High School",
+      institution: "Kavre School, Banepa",
+      score: "85%",
+      period: "2013-2015",
+      description: `My high school years at Kavre School in Banepa were formative in developing my passion for analytical thinking. I discovered my love for mathematics and science.`,
+      color: "blue"
+    },
+    {
+      id: "college",
+      title: "College (+2)",
+      institution: "Khwopa HS School, Bhaktapur",
+      score: "82%",
+      period: "2015-2017",
+      description: `At Khwopa Higher Secondary School, I pursued Computer Science as my major, which marked my first formal introduction to programming.`,
+      color: "purple"
+    },
+    {
+      id: "university",
+      title: "University",
+      institution: "Kathmandu University, Dhulikhel",
+      score: "3.2 GPA",
+      period: "2018-2022",
+      description: `My Bachelor's degree in Computer Science and Engineering at Kathmandu University transformed my theoretical knowledge into practical skills. The program offered comprehensive training in software development, with particular emphasis on database systems and algorithm design.`,
+      color: "pink"
+    }
+  ];
+
+  // Auto-rotate photos
   useEffect(() => {
-    // Animate the progress bars after component mounts
-    const timer = setTimeout(() => {
-      setProgressValues([85, 82, 80]); // 80 represents 3.2 GPA (scaled to 100 for visualization)
-    }, 500);
-
-    return () => clearTimeout(timer);
+    const interval = setInterval(() => {
+      setCurrentPhotoIndex((prev) => (prev + 1) % educationPhotos.length);
+    }, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -29,126 +80,78 @@ export const About = () => {
             <div className="w-24 h-1 bg-gradient-to-r from-blue-400 to-purple-400 mx-auto mt-4 rounded-full" />
           </div>
 
-          <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center lg:items-start justify-between gap-12">
-            {/* Left Side - Skills & Progress Graph */}
-            <div className="w-full lg:w-1/2 text-center lg:text-left">
-              <h3 className="font-inter text-sm sm:text-base text-neutral-600 mb-3 uppercase tracking-wider">
-                My Hobbies Are
-              </h3>
-              <div className="font-inter bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-3xl sm:text-4xl md:text-5xl tracking-tight text-transparent mb-8">
-                <TypewriterLoop words={skills} />
-              </div>
-              
-              {/* Animated Progress Graph */}
-              <div className="bg-white/80 p-6 rounded-xl shadow-sm border border-gray-200">
-                <h4 className="text-lg font-medium text-gray-800 mb-4">Academic Progress</h4>
-                <div className="space-y-6">
-                  {[
-                    { label: "High School", value: progressValues[0], color: "from-blue-400 to-blue-600" },
-                    { label: "College (+2)", value: progressValues[1], color: "from-purple-400 to-purple-600" },
-                    { label: "University", value: progressValues[2], color: "from-pink-400 to-pink-600" }
-                  ].map((item, index) => (
-                    <div key={index}>
-                      <div className="flex justify-between mb-1">
-                        <span className="text-sm font-medium text-gray-700">{item.label}</span>
-                        <span className={`text-sm font-bold bg-gradient-to-r ${item.color} bg-clip-text text-transparent`}>
-                          {index === 2 ? `${(item.value * 4 / 100).toFixed(1)} GPA` : `${item.value}%`}
-                        </span>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2.5">
-                        <div
-                          className={`h-2.5 rounded-full bg-gradient-to-r ${item.color}`}
-                          style={{ width: `${item.value}%`, transition: 'width 1.5s ease-out' }}
-                        />
-                      </div>
+          <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-start justify-between gap-12">
+            {/* Left Side - Photo Carousel */}
+            <div className="w-full lg:w-1/2 h-[500px]"> {/* Fixed height */}
+              <div className="relative h-full rounded-xl overflow-hidden shadow-lg bg-gray-100">
+                {educationPhotos.map((photo, index) => (
+                  <div 
+                    key={photo.id}
+                    className={`absolute inset-0 transition-opacity duration-1000 ${index === currentPhotoIndex ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+                  >
+                    <img 
+                      src={photo.img} 
+                      alt={photo.alt}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.target.onerror = null; 
+                        e.target.src = "https://via.placeholder.com/800x500?text=School+Image";
+                      }}
+                    />
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
+                      <p className="text-white font-medium text-lg">{photo.caption}</p>
+                      <p className="text-white/80 text-sm mt-1">
+                        {educationDetails.find(edu => edu.id === photo.id)?.institution}
+                      </p>
                     </div>
+                  </div>
+                ))}
+                
+                {/* Navigation dots */}
+                <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
+                  {educationPhotos.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentPhotoIndex(index)}
+                      className={`w-3 h-3 rounded-full transition-all ${index === currentPhotoIndex ? 'bg-white w-6' : 'bg-white/50'}`}
+                      aria-label={`Go to slide ${index + 1}`}
+                    />
                   ))}
                 </div>
               </div>
             </div>
 
-            {/* Right Side - Education Timeline */}
-            <div className="w-full lg:w-1/2 space-y-8 relative">
-              <div className="absolute left-5 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-300 via-purple-300 to-pink-300 rounded-full hidden lg:block" />
-              
-              {/* High School */}
-              <div className="relative pl-12 lg:pl-16 group">
-                <div className="absolute left-0 top-2 h-4 w-4 rounded-full bg-blue-500 border-4 border-blue-200 transform -translate-x-1/2 group-hover:scale-125 transition-transform hidden lg:block" />
-                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
-                  <h3 className="text-xl font-semibold text-gray-800 mb-1">High School</h3>
-                  <p className="text-base text-neutral-700 font-medium">Kavre School, Banepa</p>
-                  <p className="text-sm text-blue-600 italic mt-1">Passed with 85%</p>
-                  <div className="mt-3 text-sm text-neutral-500">
-                    <span className="inline-block px-2 py-1 bg-blue-50 text-blue-600 rounded-full">2013-2015</span>
-                  </div>
-                  <div className="mt-4 text-sm text-gray-600">
-                    <p className="flex items-start mt-2">
-                      <span className="text-blue-500 mr-2">•</span>
-                      Special interest in algebra, geometry, and Science
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* College */}
-              <div className="relative pl-12 lg:pl-16 group">
-                <div className="absolute left-0 top-2 h-4 w-4 rounded-full bg-purple-500 border-4 border-purple-200 transform -translate-x-1/2 group-hover:scale-125 transition-transform hidden lg:block" />
-                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
-                  <h3 className="text-xl font-semibold text-gray-800 mb-1">College (+2)</h3>
-                  <p className="text-base text-neutral-700 font-medium">Khwopa HS School, Bhaktapur</p>
-                  <p className="text-sm text-purple-600 italic mt-1">Passed with 82%</p>
-                  <div className="mt-3 text-sm text-neutral-500">
-                    <span className="inline-block px-2 py-1 bg-purple-50 text-purple-600 rounded-full">2015-2017</span>
-                  </div>
-                  <div className="mt-4 text-sm text-gray-600">
-                    <p className="flex items-start">
-                      <span className="text-purple-500 mr-2">•</span>
-                      Computer Science major with focus on programming fundamentals
-                    </p>
-                    <p className="flex items-start mt-2">
-                      <span className="text-purple-500 mr-2">•</span>
-                      Deepened knowledge in Physics, Calculus, and Probability
-                    </p>
-                    <p className="flex items-start mt-2">
-                      <span className="text-purple-500 mr-2">•</span>
-                      Participated in inter-college science symposiums
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* University */}
-              <div className="relative pl-12 lg:pl-16 group">
-                <div className="absolute left-0 top-2 h-4 w-4 rounded-full bg-pink-500 border-4 border-pink-200 transform -translate-x-1/2 group-hover:scale-125 transition-transform hidden lg:block" />
-                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
-                  <h3 className="text-xl font-semibold text-gray-800 mb-1">University</h3>
-                  <p className="text-base text-neutral-700 font-medium">Kathmandu University, Dhulikhel</p>
-                  <p className="text-sm text-pink-600 italic mt-1">Passed with 3.2 GPA</p>
-                  <div className="mt-3 text-sm text-neutral-500">
-                    <span className="inline-block px-2 py-1 bg-pink-50 text-pink-600 rounded-full">2017-2021</span>
-                  </div>
-                  <div className="mt-4 text-sm text-gray-600">
-                    <p className="flex items-start">
-                      <span className="text-pink-500 mr-2">•</span>
-                      Bachelor's degree in Computer Science and Engineering
-                    </p>
-                    <p className="flex items-start mt-2">
-                      <span className="text-pink-500 mr-2">•</span>
-                      Specialized in software development and database systems
-                    </p>
-                    <p className="flex items-start mt-2">
-                      <span className="text-pink-500 mr-2">•</span>
-                      Completed projects in web development and mobile applications
-                    </p>
-                    <p className="flex items-start mt-2">
-                      <span className="text-pink-500 mr-2">•</span>
-                      Developed strong problem-solving skills through algorithm studies
-                    </p>
-                    <p className="flex items-start mt-2">
-                      <span className="text-pink-500 mr-2">•</span>
-                      Gained practical experience through university lab work
-                    </p>
-                  </div>
+            {/* Right Side - All Education Descriptions */}
+            <div className="w-full lg:w-1/2">
+              <div className="bg-white/80 p-8 rounded-xl shadow-sm border border-gray-200 h-full">
+                
+                <div className="space-y-8">
+                  {educationDetails.map((edu) => (
+                    <div key={edu.id} className="group">
+                      <div className="flex items-center mb-3">
+                        <h4 className="text-lg font-medium text-gray-800">{edu.title}</h4>
+                        <span className={`ml-auto px-3 py-1 rounded-full text-sm font-medium ${
+                          edu.color === 'blue' ? 'bg-blue-100 text-blue-600' :
+                          edu.color === 'purple' ? 'bg-purple-100 text-purple-600' :
+                          'bg-pink-100 text-pink-600'
+                        }`}>
+                          {edu.score}
+                        </span>
+                      </div>
+                      <p className="text-base text-neutral-700 font-medium mb-1">{edu.institution}</p>
+                      <p className="text-sm text-neutral-500 mb-4">{edu.period}</p>
+                      <div className="prose prose-sm max-w-none text-gray-600">
+                        <p className="leading-relaxed">{edu.description}</p>
+                      </div>
+                      {edu.id !== "university" && (
+                        <div className={`w-full h-0.5 ${
+                          edu.color === 'blue' ? 'bg-gradient-to-r from-blue-100 to-blue-50' :
+                          edu.color === 'purple' ? 'bg-gradient-to-r from-purple-100 to-purple-50' :
+                          'bg-gradient-to-r from-pink-100 to-pink-50'
+                        } mt-6`} />
+                      )}
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
