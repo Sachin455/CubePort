@@ -93,7 +93,7 @@ export const ReviewsAndContact = () => {
         </div>
 
         {/* Contact Section */}
-        <div className="px-4 sm:px-6 lg:px-20 py-10 w-full">
+        <div className="px-4 sm:px-6 lg:px-20  w-full">
           <div className="w-full max-w-2xl mx-auto bg-white/60 p-6 sm:p-8 rounded-2xl shadow-md border border-gray-100 backdrop-blur">
             <RevealOnScroll>
               <div className="w-full">

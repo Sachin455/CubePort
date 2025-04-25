@@ -26,7 +26,7 @@ export const Projects = () => {
 
   return (
     <div className="relative">
-      <section className="relative py-20 px-4 sm:px-6 lg:px-8" id="projects">
+      <section className="relative py-25 px-4 sm:px-6 lg:px-8" id="projects">
         <div className="max-w-7xl mx-auto">
           <h2 className="font-inter pb-12 text-4xl md:text-5xl font-thin tracking-tight text-center">
             Projects
@@ -50,7 +50,7 @@ export const Projects = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                <motion.div className="aspect-[4/3] overflow-hidden">
+                <motion.div className="aspect-[5/2] overflow-hidden">
                   <motion.img
                     src={project.image}
                     alt={project.name}
